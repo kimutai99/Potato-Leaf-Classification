@@ -8,11 +8,11 @@ app = Flask(__name__)
 
 # Load the model
 model = tf.keras.models.load_model('model.h5')
-class_names = ['Potato___Early_blight', 'Potato___Late_blight', 'Potato___healthy']
+class_names = ['Potato___Early_blight', 'Potato___Late_blight','Potato___healthy']
 BATCH_SIZE = 32
 IMAGE_SIZE = 256
 CHANNEL = 3
-EPOCHS = 7
+EPOCHS = 20
 
 
 # Function to preprocess and predict
@@ -22,7 +22,7 @@ def predict(img):
 
     predictions = model.predict(img_array)
 
-    predicted_class = class_names[np.argmax(predictions[0])]
+    predicted_class = class_names[np.argmax(predictions)]
     confidence = round(100 * (np.max(predictions[0])), 2)
     return predicted_class, confidence
 
