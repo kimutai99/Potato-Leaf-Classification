@@ -42,7 +42,7 @@ This project is a **Potato Disease Recognition App** built using **deep learning
 - **View the result**: The predicted disease (Healthy, Early Blight, or Late Blight) will be displayed below the uploaded image.
 
 ## Project Structure
-    ├── app.py                     # Streamlit app code
+    ├── app.py                     
     ├── models
     │   ├── cnn_model.keras         # Pre-trained CNN model
     │   ├── resnet_model.h5         # Pre-trained ResNet model

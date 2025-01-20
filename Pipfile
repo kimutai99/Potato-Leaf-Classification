@@ -4,9 +4,11 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-flask = "*"
-numpy = "*"
 "potato leaf disease classification" = {file = ".", editable = true}
+flask = "*"
+werkzeug = "*"
+tensorflow = "*"
+numpy = "*"
 
 [dev-packages]
 
