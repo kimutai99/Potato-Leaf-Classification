@@ -2,5 +2,7 @@ flask
 numpy
 Werkzeug
 numpy
+tensorflow
+
 
 #-e .
