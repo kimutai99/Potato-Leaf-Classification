@@ -1,12 +1,12 @@
 # Potato-Leaf-Classification
 
-This project is a **Potato Disease Recognition App** built using **deep learning**. The app leverages a **custom Convolutional Neural Network (CNN)** to classify potato leaf diseases. The models have been trained on a dataset consisting of images of potato leaves and achieved high accuracy, with an **F1 score of 99%**. The app allows users to upload images of potato leaves and predicts whether the leaf is healthy or affected by a disease, such as Early Blight or Late Blight.
+This project is a **Potato Disease Recognition App** built using **deep learning**. The app leverages a **custom Convolutional Neural Network (CNN)** to classify potato leaf diseases. The models have been trained on a dataset consisting of images of potato leaves and achieved high accuracy, with an **Accuracy score of 96%**. The app allows users to upload images of potato leaves and predicts whether the leaf is healthy or affected by a disease, such as Early Blight or Late Blight.
 
 
 ## Features
 - **Image Upload**: User can upload an image of a potato leaf, and the app will classify it into one of three categories: Healthy, Early Blight, or Late Blight.
 - **Deep Learning Models**: The app uses both a custom CNN on potato leaf images.
-- **High Accuracy**: The models have been trained and tested on a subset of the PlantVillage dataset, achieving an F1 score of 99%.
+- **High Accuracy**: The models have been trained and tested on a subset of the PlantVillage dataset, achieving an Accuracy score of  99%.
 - **Real-time Prediction**: The app provides instant predictions and displays the predicted disease along with the uploaded image.
 
 ## Installation
@@ -26,16 +26,25 @@ This project is a **Potato Disease Recognition App** built using **deep learning
     ```bash
     pip install -r requirements.txt
     ```
-
-4. Download the trained models: Make sure to download the pre-trained CNN and ResNet models and place them in the `models/` directory.
-
-5. Run the app:
+4. Run the app:
     ```bash
-    python flask_app.py 
+    python app.py
     ```
 
 ## How to Use
-- **Open the app**: After running the Streamlit command, a local server will start, and you can access the app through your browser.
+- **Open the app**: After running the python app.py command, a local server will start, and you can access the app through your browser.
+-  Build the Docker Image:
+- Ensure Docker is running.
+- Build the Docker imag
+> docker build -t brain7854/potato-app-flask .
+
+## To test the service locally.
+### _Run the application
+ - Start a container:
+ > docker run -p 5000:5000 brain7854/potato-app-flask:latest
+
+ ### _ Access the application:_
+  - Open your web browser and go to: http://localhost:9696
   
 - **Upload an image**: Click on the "Upload" button and select an image of a potato leaf. The app will automatically preprocess the image and predict the disease.
   
@@ -45,15 +54,14 @@ This project is a **Potato Disease Recognition App** built using **deep learning
     ├── app.py                     
     ├── models
     │   ├── cnn_model.keras         # Pre-trained CNN model
-    │   ├── resnet_model.h5         # Pre-trained ResNet model
+    │ 
     ├── data
-    │   └── potato_disease.jfif     # Potato disease image for the sidebar
+    │   └── potato_disease.jfif     # Potato disease image c
     ├── requirements.txt            # Dependencies
     └── README.md                   # Project README
 ## Models
 The app uses two deep learning models:
 - **Custom CNN**: A Convolutional Neural Network trained on 20% of the PlantVillage dataset, specifically for potato diseases. The CNN was designed for lightweight performance while maintaining high accuracy.
-- **Pre-trained ResNet**: A ResNet model fine-tuned for image classification tasks. This model provides a higher degree of generalization and performs well on the dataset even with a limited amount of training data.
 
 ## Dataset
 The dataset used in this project is from the **PlantVillage** dataset, which includes thousands of images of healthy and diseased potato leaves. For this project, we focused on three classes:
@@ -64,7 +72,7 @@ The dataset used in this project is from the **PlantVillage** dataset, which inc
 [Kaggle Dataset Link](https://www.kaggle.com/datasets/arjuntejaswi/plant-village)
 
 ## Evaluation
-The models were evaluated using several metrics, including **accuracy**, **precision**, **recall**, and the **F1 score**. The custom CNN and pre-trained ResNet models both achieved an F1 score of 99%, demonstrating their effectiveness for the task of potato disease recognition.
+The models were evaluated using **accuracy**  metrics. The custom CNN  models achieved an accuracy score of 96%, demonstrating their effectiveness for the task of potato disease classification.
 
 ## Contact 
 For any questions or feedback, feel free to reach out at:
