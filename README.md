@@ -44,7 +44,7 @@ This project is a **Potato Disease Recognition App** built using **deep learning
  > docker run -p 5000:5000 brain7854/potato-app-flask:latest
 
  ### _ Access the application:_
-  - Open your web browser and go to: http://localhost:9696
+  - Open your web browser and go to: http://127.0.0.1:5000/
   
 - **Upload an image**: Click on the "Upload" button and select an image of a potato leaf. The app will automatically preprocess the image and predict the disease.
   
