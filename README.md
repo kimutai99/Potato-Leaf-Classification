@@ -31,9 +31,9 @@ pip install -r requirements.txt
 # 4️⃣ Run the Application  
 python app.py
 Once the app is running, open your browser and go to http://127.0.0.1:5000/ to start using it. 🎯
+```
 
-
-## How to Use
+## 🎯 How to Use 
 - **Open the app**: After running the python app.py command, a local server will start, and you can access the app through your browser.
 -  Build the Docker Image:
 - Ensure Docker is running.
@@ -52,7 +52,7 @@ Once the app is running, open your browser and go to http://127.0.0.1:5000/ to s
   
 - **View the result**: The predicted disease (Healthy, Early Blight, or Late Blight) will be displayed below the uploaded image.
 
-## Project Structure
+## 🎯 Project Structure
     ├── app.py                     
     ├── models
     │   ├── cnn_model.keras         # Pre-trained CNN model
