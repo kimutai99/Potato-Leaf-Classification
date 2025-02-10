@@ -12,33 +12,26 @@ This project is a **deep learning-powered** application for detecting **potato l
 This app enables early disease detection, helping farmers take preventive measures and **reduce crop losses**. 🚀  
 
 
-## Features
-- **Image Upload**: User can upload an image of a potato leaf, and the app will classify it into one of three categories: Healthy, Early Blight, or Late Blight.
-- **Deep Learning Models**: The app uses both a custom CNN on potato leaf images.
-- **High Accuracy**: The models have been trained and tested on a subset of the PlantVillage dataset, achieving an Accuracy score of  99%.
-- **Real-time Prediction**: The app provides instant predictions and displays the predicted disease along with the uploaded image.
+## 🚀 Installation  
 
-## Installation
-1. Clone the repository:
-    ```bash
-    git clone https://github.com/kimutai99/Potato-Leaf-Classification.git
-    cd potato-disease-Classification
-    ```
+Follow these steps to set up the Potato Disease Recognition App on your local machine:  
 
-2. Set up a virtual environment (optional but recommended):
-    ```bash
-    python -m lean-env
-    source lean-env/bin/activate  # On Windows: venv\Scripts\activate
-    ```
+```bash
+# 1️⃣ Clone the Repository  
+git clone https://github.com/kimutai99/Potato-Leaf-Classification.git
+cd Potato-Leaf-Classification
 
-3. Install the required dependencies:
-    ```bash
-    pip install -r requirements.txt
-    ```
-4. Run the app:
-    ```bash
-    python app.py
-    ```
+# 2️⃣ Set Up a Virtual Environment (Recommended)  
+python -m venv env
+source env/bin/activate  # On Windows: env\Scripts\activate
+
+# 3️⃣ Install Dependencies  
+pip install -r requirements.txt
+
+# 4️⃣ Run the Application  
+python app.py
+Once the app is running, open your browser and go to http://127.0.0.1:5000/ to start using it. 🎯
+
 
 ## How to Use
 - **Open the app**: After running the python app.py command, a local server will start, and you can access the app through your browser.
