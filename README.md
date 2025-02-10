@@ -1,7 +1,9 @@
-# Potato-Leaf-Classification
+# Potato Disease Recognition 
 
-This project is a **Potato Disease Recognition App** built using **deep learning**. The app leverages a **custom Convolutional Neural Network (CNN)** to classify potato leaf diseases. The models have been trained on a dataset consisting of images of potato leaves and achieved high accuracy, with an **Accuracy score of 96%**. The app allows users to upload images of potato leaves and predicts whether the leaf is healthy or affected by a disease, such as Early Blight or Late Blight.
+## Overview
+This project is a **Potato Disease Recognition App** built using **deep learning**. The app leverages a **custom Convolutional Neural Network (CNN)** to classify potato leaf diseases. The models have been trained on a dataset consisting of images of potato leaves and achieved high accuracy, with an **accuracy score of 96%**.
 
+The app allows users to upload images of potato leaves and predicts whether the leaf is **healthy** or affected by a disease, such as **Early Blight** or **Late Blight**.
 
 ## Features
 - **Image Upload**: User can upload an image of a potato leaf, and the app will classify it into one of three categories: Healthy, Early Blight, or Late Blight.
@@ -74,8 +76,9 @@ The dataset used in this project is from the **PlantVillage** dataset, which inc
 ## Evaluation
 The models were evaluated using **accuracy**  metrics. The custom CNN  models achieved an accuracy score of 96%, demonstrating their effectiveness for the task of potato disease classification.
 
-## Contact 
-For any questions or feedback, feel free to reach out at:
-- **Email**: korosbrian574@gmail.com
-- **Phone**: +254768518488
+## Contact  
 
+For any questions or feedback, feel free to reach out at:  
+
+📧 Email: [korosbrian574@gmail.com](mailto:korosbrian574@gmail.com)  
+📞 Phone: +254 768 518 488 
