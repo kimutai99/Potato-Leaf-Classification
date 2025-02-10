@@ -1,9 +1,16 @@
-# Potato Disease Recognition 
+# 🥔 Potato Disease Recognition App  
 
-## Overview
-This project is a **Potato Disease Recognition App** built using **deep learning**. The app leverages a **custom Convolutional Neural Network (CNN)** to classify potato leaf diseases. The models have been trained on a dataset consisting of images of potato leaves and achieved high accuracy, with an **accuracy score of 96%**.
+## Overview  
+This project is a **deep learning-powered** application for detecting **potato leaf diseases**. It utilizes a **custom Convolutional Neural Network (CNN)** to classify potato leaves into different categories with **96% accuracy**.  
 
-The app allows users to upload images of potato leaves and predicts whether the leaf is **healthy** or affected by a disease, such as **Early Blight** or **Late Blight**.
+### Key Features:  
+- 📸 **Image-based Disease Detection** – Upload a potato leaf image for real-time classification.  
+- 🧠 **Deep Learning Model** – Trained on a dataset of diseased and healthy potato leaves.  
+- ⚡ **High Accuracy** – Achieves **96% accuracy** on test data.  
+- 🌱 **Disease Categories** – Identifies **Healthy, Early Blight,** and **Late Blight** conditions.  
+
+This app enables early disease detection, helping farmers take preventive measures and **reduce crop losses**. 🚀  
+
 
 ## Features
 - **Image Upload**: User can upload an image of a potato leaf, and the app will classify it into one of three categories: Healthy, Early Blight, or Late Blight.
