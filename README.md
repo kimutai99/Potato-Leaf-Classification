@@ -76,9 +76,16 @@ The dataset used in this project is from the **PlantVillage** dataset, which inc
 ## Evaluation
 The models were evaluated using **accuracy**  metrics. The custom CNN  models achieved an accuracy score of 96%, demonstrating their effectiveness for the task of potato disease classification.
 
-## Contact  
+## 🌟 About Me
 
-For any questions or feedback, feel free to reach out at:  
+Hi there! I'm **Brian Kimutai** — a Data Scientist, Data Analyst, and Data Engineer currently freelancing on multiple data projects. I’m passionate about building smart data solutions and sharing insights that drive real impact.
 
-📧 Email: [korosbrian574@gmail.com](mailto:korosbrian574@gmail.com)  
-📞 Phone: +254 768 518 488 
+---
+
+## ☕ Stay Connected
+
+Let's stay in touch! Feel free to connect with me on the following platforms:
+
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/brian-kimutai-0888352b6/)  
+[![Portfolio](https://img.shields.io/badge/Portfolio-000000?style=for-the-badge&logo=google-chrome&logoColor=white)](https://kimutai99.github.io/briankimutai.github.io/)  
+[![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/kimutai99)
