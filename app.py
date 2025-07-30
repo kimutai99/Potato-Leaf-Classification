@@ -3,64 +3,104 @@ from werkzeug.utils import secure_filename
 import os
 import tensorflow as tf
 import numpy as np
-from PIL import Image
+from datetime import datetime
+import logging
 
 app = Flask(__name__)
 
-# Load the model
-model = tf.keras.models.load_model('model.h5')
-class_names = ['Potato___Early_blight', 'Potato___Late_blight','Potato___healthy']
-BATCH_SIZE = 32
+# Configuration
+app.config['UPLOAD_FOLDER'] = 'static/uploads'
+app.config['ALLOWED_EXTENSIONS'] = {'png', 'jpg', 'jpeg'}
+app.config['MAX_CONTENT_LENGTH'] = 5 * 1024 * 1024
+
+# Ensure upload folder exists
+os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
+
+# Set up logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+# Treatment suggestions dictionary
+TREATMENTS = {
+    'Potato___Early_blight': 'Apply fungicides containing chlorothalonil or copper-based products. Remove infected leaves.',
+    'Potato___Late_blight': 'Use fungicides with mancozeb. Destroy infected plants to prevent spread.',
+    'Potato___healthy': 'No treatment needed. Maintain good growing conditions.'
+}
+
+try:
+    model = tf.keras.models.load_model('model.h5')
+    model.make_predict_function()
+    logger.info("Model loaded successfully")
+except Exception as e:
+    logger.error(f"Error loading model: {e}")
+    raise
+
+class_names = ['Potato___Early_blight', 'Potato___Late_blight', 'Potato___healthy']
 IMAGE_SIZE = 256
-CHANNEL = 3
-EPOCHS = 20
 
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']
 
-# Function to preprocess and predict
-def predict(img):
-    img_array = tf.keras.preprocessing.image.img_to_array(img)
-    img_array = tf.expand_dims(img_array, 0)
+def preprocess_image(image_path):
+    try:
+        img = tf.keras.preprocessing.image.load_img(
+            image_path, 
+            target_size=(IMAGE_SIZE, IMAGE_SIZE)
+        )
+        img_array = tf.keras.preprocessing.image.img_to_array(img)
+        img_array = tf.expand_dims(img_array, 0)
+        return img_array
+    except Exception as e:
+        logger.error(f"Error preprocessing image: {e}")
+        raise
 
-    predictions = model.predict(img_array)
+def predict(img_array):
+    try:
+        predictions = model.predict(img_array)
+        predicted_class = class_names[np.argmax(predictions)]
+        confidence = round(100 * (np.max(predictions[0])), 2)
+        treatment = TREATMENTS.get(predicted_class, 'Consult with agricultural expert.')
+        return predicted_class, confidence, treatment
+    except Exception as e:
+        logger.error(f"Error during prediction: {e}")
+        raise
 
-    predicted_class = class_names[np.argmax(predictions)]
-    confidence = round(100 * (np.max(predictions[0])), 2)
-    return predicted_class, confidence
-
-# Route to the home page
 @app.route('/', methods=['GET', 'POST'])
 def home():
     if request.method == 'POST':
-        # Check if the post request has the file part
         if 'file' not in request.files:
             return render_template('index.html', message='No file part')
 
-        file = request.files['file']  # Corrected line
+        file = request.files['file']
 
-        # If the user does not select a file, browser submits an empty file without a filename
         if file.filename == '':
             return render_template('index.html', message='No selected file')
 
-        # If the file is allowed and has an allowed extension
         if file and allowed_file(file.filename):
-            filename = secure_filename(file.filename)
-            filepath = os.path.join('static', filename)
-            file.save(filepath)
+            try:
+                filename = secure_filename(file.filename)
+                unique_filename = f"{datetime.now().strftime('%Y%m%d%H%M%S')}_{filename}"
+                filepath = os.path.join(app.config['UPLOAD_FOLDER'], unique_filename)
+                file.save(filepath)
+                
+                img_array = preprocess_image(filepath)
+                predicted_class, confidence, treatment = predict(img_array)
+                
+                return render_template('index.html', 
+                                    image_path=unique_filename,
+                                    predicted_label=predicted_class,
+                                    confidence=confidence,
+                                    treatment=treatment)
 
-            # Read the image
-            img = tf.keras.preprocessing.image.load_img(filepath, target_size=(IMAGE_SIZE, IMAGE_SIZE))
+            except Exception as e:
+                logger.error(f"Error processing file: {e}")
+                if os.path.exists(filepath):
+                    os.remove(filepath)
+                return render_template('index.html', 
+                                    message=f'Error processing image: {str(e)}')
 
-            # Predict using the loaded model
-            predicted_class, confidence = predict(img)
-
-            # Render the template with the uploaded image, actual and predicted labels, and confidence
-            return render_template('index.html', image_path=filepath, actual_label=predicted_class, predicted_label=predicted_class, confidence=confidence)
-
-    return render_template('index.html', message='Upload an image')
-
-# Function to check if the file has an allowed extension
-def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in {'png', 'jpg', 'jpeg'}
+    return render_template('index.html')
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    app.run(host='0.0.0.0', port=5000, debug=True)

@@ -1,36 +1,14 @@
 # Use an official Python runtime as the base image
 FROM python:3.12-slim
 
-# Set environment variables to prevent interactive prompts during apt-get
-ENV DEBIAN_FRONTEND=noninteractive
+# Set environment variables
+ENV DEBIAN_FRONTEND=noninteractive \
+    FLASK_ENV=production
 
-# Set the working directory in the container
+# Set the working directory
 WORKDIR /app
 
-# Copy the requirements.txt file into the container
-COPY requirements.txt /app/requirements.txt
-
-COPY model.h5 /app/
-
-
-# Install the dependencies from the requirements.txt file
-RUN pip install --no-cache-dir -r /app/requirements.txt
-
-# Copy the rest of the application files into the container
-COPY . /app/
-
-# Expose the application port
-EXPOSE 5000
-# Base Python Image
-FROM python:3.10-slim
-
-# Set work directory
-WORKDIR /app
-
-# Copy the requirements.txt file
-COPY requirements.txt /app/
-
-# Install system dependencies for TensorFlow
+# Install system dependencies (required for TensorFlow, OpenCV, etc.)
 RUN apt-get update && apt-get install -y \
     libglib2.0-0 \
     libsm6 \
@@ -39,14 +17,21 @@ RUN apt-get update && apt-get install -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Upgrade pip
-RUN pip install --upgrade pip
+# Copy requirements first (to leverage Docker cache)
+COPY requirements.txt .
 
-# Install Python dependencies
-RUN pip install --no-cache-dir -r requirements.txt
+# Upgrade pip and install Python dependencies
+RUN pip install --upgrade pip && \
+    pip install --no-cache-dir -r requirements.txt
 
-# Copy application code
-COPY . /app/
+# Copy the rest of the application files
+COPY . .
 
-# Run the Flask application
-CMD ["python", "app.py"]
+# Create the uploads directory
+RUN mkdir -p /app/static/uploads
+
+# Expose the Flask port
+EXPOSE 5000
+
+# Run the Flask application (use Gunicorn for production)
+CMD ["gunicorn", "--bind", "0.0.0.0:5000", "--workers", "4", "app:app"]
