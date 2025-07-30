@@ -9,7 +9,7 @@ import logging
 app = Flask(__name__)
 
 # Configuration
-app.config['UPLOAD_FOLDER'] = 'static/uploads'
+app.config['UPLOAD_FOLDER'] = '/tmp/uploads'  # Using tmp directory for Render
 app.config['ALLOWED_EXTENSIONS'] = {'png', 'jpg', 'jpeg'}
 app.config['MAX_CONTENT_LENGTH'] = 5 * 1024 * 1024
 
@@ -27,16 +27,25 @@ TREATMENTS = {
     'Potato___healthy': 'No treatment needed. Maintain good growing conditions.'
 }
 
+# Load TFLite model and allocate tensors
 try:
-    model = tf.keras.models.load_model('model.h5')
-    model.make_predict_function()
-    logger.info("Model loaded successfully")
+    interpreter = tf.lite.Interpreter(model_path="model.tflite")
+    interpreter.allocate_tensors()
+    input_details = interpreter.get_input_details()
+    output_details = interpreter.get_output_details()
+    
+    # Get model's expected input size
+    MODEL_INPUT_SIZE = input_details[0]['shape'][1]  # Assuming square input
+    logger.info(f"✅ TFLite model loaded successfully. Expected input size: {MODEL_INPUT_SIZE}x{MODEL_INPUT_SIZE}")
+    
+    # Verify model expects square input
+    if input_details[0]['shape'][1] != input_details[0]['shape'][2]:
+        logger.warning(f"Model expects non-square input: {input_details[0]['shape'][1:3]}")
 except Exception as e:
-    logger.error(f"Error loading model: {e}")
+    logger.error(f"❌ Error loading model: {e}")
     raise
 
 class_names = ['Potato___Early_blight', 'Potato___Late_blight', 'Potato___healthy']
-IMAGE_SIZE = 256
 
 def allowed_file(filename):
     return '.' in filename and \
@@ -46,10 +55,15 @@ def preprocess_image(image_path):
     try:
         img = tf.keras.preprocessing.image.load_img(
             image_path, 
-            target_size=(IMAGE_SIZE, IMAGE_SIZE)
+            target_size=(MODEL_INPUT_SIZE, MODEL_INPUT_SIZE)
         )
         img_array = tf.keras.preprocessing.image.img_to_array(img)
-        img_array = tf.expand_dims(img_array, 0)
+        img_array = np.expand_dims(img_array, axis=0)  # Create batch dimension
+        img_array = img_array.astype(np.float32)  # Ensure correct dtype
+        
+        # Normalize if your model expects values in a specific range
+        img_array = img_array / 255.0  # Uncomment if your model expects [0,1] range
+        
         return img_array
     except Exception as e:
         logger.error(f"Error preprocessing image: {e}")
@@ -57,13 +71,22 @@ def preprocess_image(image_path):
 
 def predict(img_array):
     try:
-        predictions = model.predict(img_array)
+        # Verify input shape matches model expectations
+        if img_array.shape[1:3] != (MODEL_INPUT_SIZE, MODEL_INPUT_SIZE):
+            received = img_array.shape[1:3]
+            raise ValueError(f"Input shape mismatch. Expected ({MODEL_INPUT_SIZE}, {MODEL_INPUT_SIZE}), got {received}")
+            
+        interpreter.set_tensor(input_details[0]['index'], img_array)
+        interpreter.invoke()
+        predictions = interpreter.get_tensor(output_details[0]['index'])
+        
         predicted_class = class_names[np.argmax(predictions)]
-        confidence = round(100 * (np.max(predictions[0])), 2)
+        confidence = round(100 * np.max(predictions[0]), 2)
         treatment = TREATMENTS.get(predicted_class, 'Consult with agricultural expert.')
+        
         return predicted_class, confidence, treatment
     except Exception as e:
-        logger.error(f"Error during prediction: {e}")
+        logger.error(f"Prediction error: {e}")
         raise
 
 @app.route('/', methods=['GET', 'POST'])
@@ -78,12 +101,15 @@ def home():
             return render_template('index.html', message='No selected file')
 
         if file and allowed_file(file.filename):
+            filepath = None
             try:
+                # Save uploaded file with timestamp prefix
                 filename = secure_filename(file.filename)
                 unique_filename = f"{datetime.now().strftime('%Y%m%d%H%M%S')}_{filename}"
                 filepath = os.path.join(app.config['UPLOAD_FOLDER'], unique_filename)
                 file.save(filepath)
                 
+                # Process and predict
                 img_array = preprocess_image(filepath)
                 predicted_class, confidence, treatment = predict(img_array)
                 
@@ -94,13 +120,17 @@ def home():
                                     treatment=treatment)
 
             except Exception as e:
-                logger.error(f"Error processing file: {e}")
-                if os.path.exists(filepath):
+                logger.error(f"Request processing failed: {e}")
+                if filepath and os.path.exists(filepath):
                     os.remove(filepath)
                 return render_template('index.html', 
                                     message=f'Error processing image: {str(e)}')
+            finally:
+                # Clean up uploaded file after processing
+                if filepath and os.path.exists(filepath):
+                    os.remove(filepath)
 
     return render_template('index.html')
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(host='0.0.0.0', port=5000)
