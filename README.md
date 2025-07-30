@@ -8,6 +8,7 @@ The **Potato Disease Classifier** is an AI-powered web application that helps fa
 - **Late Blight** (caused by *Phytophthora infestans*)
 
 This tool provides instant diagnosis through a user-friendly interface, enabling early disease detection and treatment to prevent crop losses. The application is **cloud-hosted on Render** for easy access and also available for local deployment.
+<<<<<<< HEAD
 
 ## 🌟 Key Features
 | Feature | Benefit |
@@ -18,6 +19,25 @@ This tool provides instant diagnosis through a user-friendly interface, enabling
 | **Easy Deployment** | Available as web service or local installation |
 
 ## 📸 Application Preview
+![Potato Disease Classifier Interface](image/work%20picture.png)  
+*Web interface showing disease classification results*
+## 🌟 Live Demo
+[![Open in Render](https://img.shields.io/badge/Render-Deployed%20App-46E3B7?style=for-the-badge&logo=render)](https://potato-leaf-classification-4.onrender.com/)
+=======
+>>>>>>> 71ba5a4f8be7ee154660bdcd3e79ee20ba104744
+
+## 🌟 Key Features
+| Feature | Benefit |
+|---------|---------|
+| **Real-time Analysis** | Get results in under 1 second |
+| **Mobile-Compatible** | Works on smartphones in the field |
+| **Detailed Reports** | Includes confidence levels and treatment suggestions |
+| **Easy Deployment** | Available as web service or local installation |
+
+<<<<<<< HEAD
+
+=======
+## 📸 Application Preview
 ![Potato Disease Classifier Interface](screenshots/app-screenshot.png)  
 *Web interface showing disease classification results*
 ## 🌟 Live Demo
@@ -27,6 +47,7 @@ This tool provides instant diagnosis through a user-friendly interface, enabling
 ![Potato Disease Classifier Interface](screenshots/app-screenshot.png)  
 *Web interface showing disease classification results*
 
+>>>>>>> 71ba5a4f8be7ee154660bdcd3e79ee20ba104744
 ## ✨ Key Features
 - ☁️ **Cloud Hosted** on Render  
 - 🧠 **96% Accurate** CNN Model  
@@ -99,7 +120,10 @@ Potato-Leaf-Classification/
 | F1-Score       | 0.95   |
 | Inference Time | 0.8s   |
 
+<<<<<<< HEAD
+=======
 ## 👨‍💻 Author
+>>>>>>> 71ba5a4f8be7ee154660bdcd3e79ee20ba104744
 
 **Brian Kimutai**  
 [![GitHub](https://img.shields.io/badge/-GitHub-181717?style=flat&logo=github)](https://github.com/kimutai99)  
