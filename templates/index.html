@@ -121,7 +121,6 @@
       backdrop-filter: blur(2px);
     }
     
-    /* Better contrast for text on semi-transparent backgrounds */
     .text-dark {
       color: #333 !important;
     }
@@ -176,7 +175,7 @@
               <h5 class="mb-0">Leaf Image</h5>
             </div>
             <div class="card-body text-center p-3">
-              <img src="{{ url_for('static', filename='uploads/' + image_path) }}" 
+              <img src="{{ url_for('display_image', filename=image_path) }}" 
                    alt="Uploaded potato leaf" 
                    class="preview-image img-fluid">
             </div>
