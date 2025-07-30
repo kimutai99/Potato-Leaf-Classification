@@ -11,11 +11,11 @@
       --primary-green: #2e7d32;
       --secondary-green: #81c784;
       --dark-green: #1b5e20;
-      --light-bg: rgba(248, 249, 250, 0.95);
+      --light-bg: rgba(248, 249, 250, 0.85);
     }
     
     body {
-      background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), 
+      background: linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1)), 
                   url('{{ url_for("static", filename="leafs.jpg") }}');
       background-size: cover;
       background-position: center;
@@ -26,20 +26,22 @@
     }
     
     .header-bg {
-      background-color: rgba(46, 125, 50, 0.9);
+      background-color: rgba(46, 125, 50, 0.85);
       color: white;
       padding: 2rem 0;
       margin-bottom: 2rem;
       backdrop-filter: blur(2px);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     }
     
     .main-container {
       background-color: var(--light-bg);
       border-radius: 8px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
       padding: 2rem;
       margin-bottom: 3rem;
       backdrop-filter: blur(2px);
+      border: 1px solid rgba(255,255,255,0.2);
     }
     
     .upload-container {
@@ -49,7 +51,7 @@
       text-align: center;
       cursor: pointer;
       transition: all 0.2s ease;
-      background-color: rgba(255, 255, 255, 0.7);
+      background-color: rgba(255, 255, 255, 0.8);
     }
     
     .upload-container:hover {
@@ -59,7 +61,7 @@
     
     .result-card {
       border-left: 4px solid var(--primary-green);
-      background-color: rgba(255, 255, 255, 0.9);
+      background-color: rgba(255, 255, 255, 0.85);
     }
     
     .healthy {
@@ -85,7 +87,7 @@
     }
     
     .treatment-card {
-      background-color: rgba(129, 199, 132, 0.2);
+      background-color: rgba(129, 199, 132, 0.25);
       border-radius: 6px;
       border-left: 3px solid var(--secondary-green);
     }
@@ -96,13 +98,14 @@
       border-radius: 6px;
       background-color: white;
       padding: 5px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     }
     
     .card {
       border: none;
       box-shadow: 0 2px 10px rgba(0,0,0,0.1);
       margin-bottom: 1.5rem;
-      background-color: rgba(255, 255, 255, 0.9);
+      background-color: rgba(255, 255, 255, 0.85);
     }
     
     .card-header {
@@ -115,10 +118,11 @@
     }
     
     footer {
-      background-color: rgba(27, 94, 32, 0.9);
+      background-color: rgba(27, 94, 32, 0.85);
       color: white;
       padding: 1rem 0;
       backdrop-filter: blur(2px);
+      box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
     }
     
     .text-dark {
@@ -127,6 +131,22 @@
     
     .text-muted {
       color: #666 !important;
+    }
+
+    /* Improved contrast for better readability */
+    .alert {
+      background-color: rgba(255, 255, 255, 0.9);
+    }
+
+    /* Better visibility for interactive elements */
+    .btn-success {
+      background-color: var(--primary-green);
+      border-color: var(--dark-green);
+    }
+
+    .btn-success:hover {
+      background-color: var(--dark-green);
+      border-color: var(--dark-green);
     }
   </style>
 </head>
